@@ -1,0 +1,28 @@
+stages:
+  - test
+  
+
+.set_colors: &set_colors
+  - export BLUE='\033[0;34m'
+  - export YELLOW='\033[0;33m'
+  - export RED='\033[0;31m'
+  - export NC='\033[0m' #No Color
+  - export NOW=$(date "+%Y-%m-%d_%H-%M-%S")
+
+test:role:
+  image: sindriainc/ansible:latest
+  stage: test
+  when: manual
+  tags:
+    - devopscc-ansible
+  only:
+    - master
+  before_script:
+    - *set_colors
+  script:
+    - echo -e "${BLUE}Testing with molecule...${NC}"
+    - molecule --version
+    - ansible --version
+    - molecule test --help
+    - molecule test --all 
+    - echo -e "${BLUE}Ok tests passed...${NC}"

@@ -1,0 +1,7 @@
+---
+
+# List of users to add
+  users_list: [] 
+  
+# List of users to delete
+  delusers_list: []

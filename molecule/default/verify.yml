@@ -1,0 +1,32 @@
+---
+# This is an example playbook to execute Ansible tests.
+
+- name: Verify
+  hosts: all
+  
+  tasks:
+  
+  - name: Check user creation
+    user:
+      name:  testuser1
+      groups: ["sudo", "video"]
+    register:  usr_status 
+    
+  - name: Test user creation
+    assert:
+      that: 
+        - not usr_status.changed
+  
+  - name: Check user and non existant gruop creation
+    user:
+      name: user_with_not_existing_gruop
+      groups: ["newgroup"]
+    register:  usr_and_group_status 
+
+  - name: Test user and non existant gruop creation
+    assert:
+      that: 
+        - not usr_status.changed
+  
+
+        

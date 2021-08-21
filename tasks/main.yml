@@ -1,0 +1,36 @@
+---
+
+  - name: Ensure groups is created before create users
+    group:
+      name: "{{ item.1 }}"
+      state: present
+    with_subelements: 
+      - "{{ users_list }}"
+      - groups
+  
+  - name: Add user with key
+    user: 
+      name: "{{ item.username }}"
+      groups: "{{ item.groups }}" 
+      shell: /bin/bash  
+      state: present
+    with_items: "{{ users_list }}"
+
+
+  - name: Add ssh key
+    authorized_key:  
+      user: "{{ item.username }}"
+      key: "{{ lookup('file', item.auth_key) }}"
+      state: present
+      exclusive: "{{ item.exclusive_ssh_key if item.exclusive_ssh_key is defined else 'no' }}"
+    with_items: "{{ users_list }}"
+    when: item.auth_key is defined
+
+
+  - name: Delete user by name
+    user: 
+      name: "{{ item.username }}"
+      state: absent
+      remove: yes
+    with_items: "{{ delusers_list }}"
+    when: delusers_list

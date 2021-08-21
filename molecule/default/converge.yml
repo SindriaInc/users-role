@@ -1,0 +1,22 @@
+---
+- name: Converge
+  hosts: all
+
+  vars:
+    users_list:
+        - username: testuser1
+          groups: ["sudo", "video"]
+        
+        - username: testuser2
+          groups: ["sudo"]
+          auth_key: "../../tests/testuser@cloud.ags-it.wan"
+        
+        - username: user_with_not_existing_gruop
+          groups: ["newgroup"]
+        
+
+
+  tasks:
+    - name: "Include users-role"
+      include_role:
+        name: "users-role"
