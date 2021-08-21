@@ -1,5 +1,6 @@
-# USERS ROLE
-Ruolo per creare o cancellare utenti sul sistema.
+# Users Role
+
+This role setup users and groups on the system.
 
 ## Creazione
 
